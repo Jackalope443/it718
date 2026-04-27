@@ -10,18 +10,14 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Check if form data is actually posted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
-    // Capture the IDs from the HTML form and cast them as integers for security
     $race_id = (int)$_POST['race_id'];
     $class_id = (int)$_POST['class_id'];
     $subclass_id = (int)$_POST['subclass_id'];
 
-    // Ensure no empty values are submitted
     if ($race_id > 0 && $class_id > 0 && $subclass_id > 0) {
         
-        // Prepare the INSERT statement
         $sql = "INSERT INTO character_submissions (race_id, class_id, subclass_id) 
                 VALUES ($race_id, $class_id, $subclass_id)";
 

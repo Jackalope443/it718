@@ -1,11 +1,9 @@
 <?php 
 include __DIR__ . '/../db.php'; 
 
-// CHANGE THESE TWO FOR EACH FILE
 $class_id = 1; 
 $class_name = 'Barbarian'; 
 
-// Fetch subclass names and their submission counts
 $query = "SELECT s.name, COUNT(cs.id) as total 
           FROM subclasses s 
           LEFT JOIN character_submissions cs ON s.id = cs.subclass_id 
@@ -23,7 +21,6 @@ while($row = $result->fetch_assoc()) {
     $counts[] = (int)$row['total'];
 }
 
-// Query for Race Popularity in this class
 $race_query = "SELECT r.name, COUNT(cs.id) as total 
                FROM character_submissions cs
                JOIN races r ON cs.race_id = r.id
@@ -90,7 +87,7 @@ while($row = $race_result->fetch_assoc()) {
                 datasets: [{
                     label: 'Characters',
                     data: <?php echo json_encode($race_counts); ?>,
-                    backgroundColor: 'rgba(33, 150, 243, 0.7)', // Blue color to distinguish from subclasses
+                    backgroundColor: 'rgba(33, 150, 243, 0.7)',
                     borderColor: 'rgba(33, 150, 243, 1)',
                     borderWidth: 1
                 }]

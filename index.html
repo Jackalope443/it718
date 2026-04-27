@@ -147,16 +147,15 @@
         classSelect.addEventListener('change', function() {
             const selectedClass = this.value;
             
-            // Clear current options
+          
             subclassSelect.innerHTML = '<option value="">--Select a Subclass--</option>';
             
             if (selectedClass && subclassData[selectedClass]) {
                 subclassSelect.disabled = false;
-                // Loop through the array of objects
                 subclassData[selectedClass].forEach(sub => {
                     const option = document.createElement('option');
-                    option.value = sub.id; // Use the numerical ID for the database
-                    option.textContent = sub.name; // Use the name for the user to see
+                    option.value = sub.id; 
+                    option.textContent = sub.name;
                     subclassSelect.appendChild(option);
                 });
             } else {
