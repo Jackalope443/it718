@@ -86,12 +86,11 @@
         classSelect.addEventListener('change', function() {
             const selectedClass = this.value;
             
-            // Clear current options
             subclassSelect.innerHTML = '<option value="">--Select a Subclass--</option>';
             
             if (selectedClass && subclassData[selectedClass]) {
                 subclassSelect.disabled = false;
-                subclassMap[selectedClass].forEach(sub => {
+                subclassData[selectedClass].forEach(sub => {
                     const option = document.createElement('option');
                     option.value = sub.toLowerCase().replace(/\s+/g, '-');
                     option.textContent = sub;
