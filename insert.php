@@ -1,16 +1,13 @@
 <?php
-// Replace these with your actual AWS RDS credentials
-$host = 'your-rds-endpoint.amazonaws.com';
-$db   = 'your_database_name';
-$user = 'your_username';
-$pass = 'your_password';
+$host = 'dnd-db2.cri8cm2i269q.us-east-2.rds.amazonaws.com';
+$db   = 'dnddb';
+$user = 'admin';
+$pass = 'passwordfordnddb';
 
-// Create connection
 $conn = new mysqli($host, $user, $pass, $db);
 
-// Check connection
 if ($conn->connect_error) {
-    die("Database Connection failed: " . $conn->connect_error);
+    die("Connection failed: " . $conn->connect_error);
 }
 
 // Check if form data is actually posted
