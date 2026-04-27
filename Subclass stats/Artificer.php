@@ -1,5 +1,5 @@
 <?php 
-include 'db.php'; 
+include __DIR__ . '/../db.php'; 
 
 // CHANGE THESE TWO FOR EACH FILE
 $class_id = 13; 
@@ -22,6 +22,24 @@ while($row = $result->fetch_assoc()) {
     $labels[] = $row['name'];
     $counts[] = (int)$row['total'];
 }
+
+// Query for Race Popularity in this class
+$race_query = "SELECT r.name, COUNT(cs.id) as total 
+               FROM character_submissions cs
+               JOIN races r ON cs.race_id = r.id
+               WHERE cs.class_id = $class_id 
+               GROUP BY r.id 
+               ORDER BY total DESC";
+
+$race_result = $conn->query($race_query);
+
+$race_labels = [];
+$race_counts = [];
+
+while($row = $race_result->fetch_assoc()) {
+    $race_labels[] = $row['name'];
+    $race_counts[] = (int)$row['total'];
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -39,6 +57,8 @@ while($row = $result->fetch_assoc()) {
     <div class="container">
         <h1><?php echo $class_name; ?> Subclass Popularity</h1>
         <canvas id="subclassChart"></canvas>
+        <h2>Popular Races for <?php echo $class_name; ?>s</h2>
+        <canvas id="raceChart" height="100"></canvas>
     </div>
 
     <script>
@@ -60,6 +80,28 @@ while($row = $result->fetch_assoc()) {
                 scales: { x: { beginAtZero: true, ticks: { stepSize: 1 } } }
             }
         });
+
+        const raceCtx = document.getElementById('raceChart').getContext('2d');
+        new Chart(raceCtx, {
+            type: 'bar',
+            data: {
+                labels: <?php echo json_encode($race_labels); ?>,
+                datasets: [{
+                    label: 'Characters',
+                    data: <?php echo json_encode($race_counts); ?>,
+                    backgroundColor: 'rgba(33, 150, 243, 0.7)', // Blue color to distinguish from subclasses
+                    borderColor: 'rgba(33, 150, 243, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                scales: { x: { beginAtZero: true, ticks: { stepSize: 1 } } }
+            }
+        });
     </script>
+
+    
+    
 </body>
 </html>
