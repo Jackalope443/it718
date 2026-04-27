@@ -89,7 +89,7 @@
             // Clear current options
             subclassSelect.innerHTML = '<option value="">--Select a Subclass--</option>';
             
-            if (selectedClass && subclassMap[selectedClass]) {
+            if (selectedClass && subclassData[selectedClass]) {
                 subclassSelect.disabled = false;
                 subclassMap[selectedClass].forEach(sub => {
                     const option = document.createElement('option');
