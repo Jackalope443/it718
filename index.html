@@ -26,77 +26,103 @@
         li a:hover {
             background-color: #0056b3;
         }
+
+        .main-container {
+            display: flex;
+            width: 100%;
+            }
+
+        .left-side, .right-side {
+            flex: 1;
+            padding: 20px;
+        }
+
+            
+        .left-side ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .left-side li a {
+            display: block;
+            margin-bottom: 10px;
+            
+        }
     </style>
 </head>
-<nav>
-    <h4>Check out what the most popular subclasses are for each class</h3>
-    <ul>
-        <li><a href="Artificer.php">Artificer</a></li>
-        <li><a href="Barbarian.php">Barbarian</a></li>
-        <li><a href="Bard.php">Bard</a></li>
-        <li><a href="Cleric.php">Cleric</a></li>
-        <li><a href="Druid.php">Druid</a></li>
-        <li><a href="Fighter.php">Fighter</a></li>
-        <li><a href="Monk.php">Monk</a></li>
-        <li><a href="Paladin.php">Paladin</a></li>
-        <li><a href="Ranger.php">Ranger</a></li>
-        <li><a href="Rogue.php">Rogue</a></li>
-        <li><a href="Sorcerer.php">Sorcerer</a></li>
-        <li><a href="Warlock.php">Warlock</a></li>
-        <li><a href="Wizard.php">Wizard</a></li>
-    </ul>
-</nav>
+
 <body>
+    <div class="main-container">
+        <nav class="left-side">
+            <h4>Check out what the most popular subclasses are for each class</h3>
+            <ul>
+                <li><a href="Artificer.php">Artificer</a></li>
+                <li><a href="Barbarian.php">Barbarian</a></li>
+                <li><a href="Bard.php">Bard</a></li>
+                <li><a href="Cleric.php">Cleric</a></li>
+                <li><a href="Druid.php">Druid</a></li>
+                <li><a href="Fighter.php">Fighter</a></li>
+                <li><a href="Monk.php">Monk</a></li>
+                <li><a href="Paladin.php">Paladin</a></li>
+                <li><a href="Ranger.php">Ranger</a></li>
+                <li><a href="Rogue.php">Rogue</a></li>
+                <li><a href="Sorcerer.php">Sorcerer</a></li>
+                <li><a href="Warlock.php">Warlock</a></li>
+                <li><a href="Wizard.php">Wizard</a></li>
+            </ul>
+        </nav>
+        <div class="right-side">
+            <h2>Log Character</h2>
+            <form action="insert.php" method="POST">
+                
+                <div class="form-group">
+                    <label for="race">Race:</label>
+                    <select name="race_id" id="race" required>
+                        <option value="">--Select Race--</option>
+                        <option value="1">Dragonborn</option>
+                        <option value="2">Dwarf</option>
+                        <option value="3">Elf</option>
+                        <option value="4">Gnome</option>
+                        <option value="5">Half-Elf</option>
+                        <option value="6">Half-Orc</option>
+                        <option value="7">Halfling</option>
+                        <option value="8">Human</option>
+                        <option value="9">Tiefling</option>
+                    </select>
+                </div>
 
-    <h2>Log Character</h2>
-    <form action="insert.php" method="POST">
-        
-        <div class="form-group">
-            <label for="race">Race:</label>
-            <select name="race_id" id="race" required>
-                <option value="">--Select Race--</option>
-                <option value="1">Dragonborn</option>
-                <option value="2">Dwarf</option>
-                <option value="3">Elf</option>
-                <option value="4">Gnome</option>
-                <option value="5">Half-Elf</option>
-                <option value="6">Half-Orc</option>
-                <option value="7">Halfling</option>
-                <option value="8">Human</option>
-                <option value="9">Tiefling</option>
-            </select>
+                <div class="form-group">
+                    <label for="classSelect">Class:</label>
+                    <select name="class_id" id="classSelect" required>
+                        <option value="">--Select Class--</option>
+                        <option value="1">Barbarian</option>
+                        <option value="2">Bard</option>
+                        <option value="3">Cleric</option>
+                        <option value="4">Druid</option>
+                        <option value="5">Fighter</option>
+                        <option value="6">Monk</option>
+                        <option value="7">Paladin</option>
+                        <option value="8">Ranger</option>
+                        <option value="9">Rogue</option>
+                        <option value="10">Sorcerer</option>
+                        <option value="11">Warlock</option>
+                        <option value="12">Wizard</option>
+                        <option value="13">Artificer</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="subclassSelect">Subclass:</label>
+                    <select name="subclass_id" id="subclassSelect" required disabled>
+                        <option value="">--Select a Class First--</option>
+                    </select>
+                </div>
+
+                <button type="submit">Save to Database</button>
+            </form>
         </div>
-
-        <div class="form-group">
-            <label for="classSelect">Class:</label>
-            <select name="class_id" id="classSelect" required>
-                <option value="">--Select Class--</option>
-                <option value="1">Barbarian</option>
-                <option value="2">Bard</option>
-                <option value="3">Cleric</option>
-                <option value="4">Druid</option>
-                <option value="5">Fighter</option>
-                <option value="6">Monk</option>
-                <option value="7">Paladin</option>
-                <option value="8">Ranger</option>
-                <option value="9">Rogue</option>
-                <option value="10">Sorcerer</option>
-                <option value="11">Warlock</option>
-                <option value="12">Wizard</option>
-                <option value="13">Artificer</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label for="subclassSelect">Subclass:</label>
-            <select name="subclass_id" id="subclassSelect" required disabled>
-                <option value="">--Select a Class First--</option>
-            </select>
-        </div>
-
-        <button type="submit">Save to Database</button>
-    </form>
-
+    
+    </div>
     <script>
         const subclassData = {
             1: [{id: 1, name: 'Path of the Ancestral Guardian'}, {id: 2, name: 'Path of the Battlerager'}, {id: 3, name: 'Path of the Beast'}, {id: 4, name: 'Path of the Berserker'}, {id: 5, name: 'Path of the Giant'}, {id: 6, name: 'Path of the Storm Herald'}, {id: 7, name: 'Path of the Totem Warrior'}, {id: 8, name: 'Path of Wild Magic'}, {id: 9, name: 'Path of the Zealot'}],
