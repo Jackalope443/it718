@@ -54,13 +54,14 @@ while($row = $race_result->fetch_assoc()) {
     </style>
 </head>
 <body>
+    <h4><a href="../index.html">Return Home</a></h4>
     <div class="container">
         <h1><?php echo $class_name; ?> Subclass Popularity</h1>
         <canvas id="subclassChart"></canvas>
         <h2>Popular Races for <?php echo $class_name; ?>s</h2>
         <canvas id="raceChart" height="100"></canvas>
     </div>
-
+    
     <script>
         const ctx = document.getElementById('subclassChart').getContext('2d');
         new Chart(ctx, {

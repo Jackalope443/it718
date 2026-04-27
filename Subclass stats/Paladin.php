@@ -54,6 +54,7 @@ while($row = $race_result->fetch_assoc()) {
     </style>
 </head>
 <body>
+    <h4><a href="../index.html">Return Home</a></h4>
     <div class="container">
         <h1><?php echo $class_name; ?> Subclass Popularity</h1>
         <canvas id="subclassChart"></canvas>
