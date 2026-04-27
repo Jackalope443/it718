@@ -2,74 +2,105 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>D&D 5e Character Builder</title>
+    <title>D&D 5e Character Logger</title>
     <style>
-        body { font-family: sans-serif; margin: 20px; }
-        .form-group { margin-bottom: 20px; }
-        select { width: 300px; padding: 5px; }
+        body { font-family: sans-serif; max-width: 400px; margin: 20px auto; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-weight: bold; margin-bottom: 5px; }
+        select { width: 100%; padding: 8px; }
+        button { padding: 10px 15px; background: #d92121; color: white; border: none; cursor: pointer; width: 100%; font-size: 16px; }
+        button:hover { background: #b01b1b; }
     </style>
 </head>
 <body>
 
-    <h2>Character Builder Form</h2>
-    <form id="dndForm">
+    <h2>Log Character</h2>
+    <form action="insert.php" method="POST">
+        
+        <div class="form-group">
+            <label for="race">Race:</label>
+            <select name="race_id" id="race" required>
+                <option value="">--Select Race--</option>
+                <option value="1">Dragonborn</option>
+                <option value="2">Dwarf</option>
+                <option value="3">Elf</option>
+                <option value="4">Gnome</option>
+                <option value="5">Half-Elf</option>
+                <option value="6">Half-Orc</option>
+                <option value="7">Halfling</option>
+                <option value="8">Human</option>
+                <option value="9">Tiefling</option>
+            </select>
+        </div>
+
         <div class="form-group">
             <label for="classSelect">Class:</label>
-            <select id="classSelect" name="class">
-                <option value="">--Select a Class--</option>
-                <option value="barbarian">Barbarian</option>
-                <option value="fighter">Fighter</option>
-                <option value="wizard">Wizard</option>
+            <select name="class_id" id="classSelect" required>
+                <option value="">--Select Class--</option>
+                <option value="1">Barbarian</option>
+                <option value="2">Bard</option>
+                <option value="3">Cleric</option>
+                <option value="4">Druid</option>
+                <option value="5">Fighter</option>
+                <option value="6">Monk</option>
+                <option value="7">Paladin</option>
+                <option value="8">Ranger</option>
+                <option value="9">Rogue</option>
+                <option value="10">Sorcerer</option>
+                <option value="11">Warlock</option>
+                <option value="12">Wizard</option>
             </select>
         </div>
 
         <div class="form-group">
             <label for="subclassSelect">Subclass:</label>
-            <select id="subclassSelect" name="subclass" disabled>
-                <option value="">--Select a Class first--</option>
+            <select name="subclass_id" id="subclassSelect" required disabled>
+                <option value="">--Select a Class First--</option>
             </select>
         </div>
 
-        <button type="submit">Save Character</button>
+        <button type="submit">Save to Database</button>
     </form>
 
     <script>
+        // Maps the Class ID to its respective Subclass IDs and Names
         const subclassData = {
-            1: [{id: 1, name: 'Path of the Ancestral Guardian'}, {id: 2, name: 'Path of the Battlerager'}, {id: 3, name: 'Path of the Beast'}, {id: 4, name: 'Path of the Berserker'}, {id: 5, name: 'Path of the Giant'}, {id: 6, name: 'Path of the Storm Herald'}, {id: 7, name: 'Path of the Totem Warrior'}, {id: 8, name: 'Path of Wild Magic'}, {id: 9, name: 'Path of the Zealot'}],
-            2: [{id: 10, name: 'College of Creation'}, {id: 11, name: 'College of Eloquence'}, {id: 12, name: 'College of Glamour'}, {id: 13, name: 'College of Lore'}, {id: 14, name: 'College of Spirits'}, {id: 15, name: 'College of Swords'}, {id: 16, name: 'College of Valor'}, {id: 17, name: 'College of Whispers'}],
-            3: [{id: 18, name: 'Arcana Domain'}, {id: 19, name: 'Death Domain'}, {id: 20, name: 'Forge Domain'}, {id: 21, name: 'Grave Domain'}, {id: 22, name: 'Knowledge Domain'}, {id: 23, name: 'Life Domain'}, {id: 24, name: 'Light Domain'}, {id: 25, name: 'Nature Domain'}, {id: 26, name: 'Order Domain'}, {id: 27, name: 'Peace Domain'}, {id: 28, name: 'Tempest Domain'}, {id: 29, name: 'Trickery Domain'}, {id: 30, name: 'Twilight Domain'}, {id: 31, name: 'War Domain'}],
-            4: [{id: 32, name: 'Circle of Dreams'}, {id: 33, name: 'Circle of the Land'}, {id: 34, name: 'Circle of the Moon'}, {id: 35, name: 'Circle of the Shepherd'}, {id: 36, name: 'Circle of Spores'}, {id: 37, name: 'Circle of Stars'}, {id: 38, name: 'Circle of Wildfire'}],
-            5: [{id: 39, name: 'Arcane Archer'}, {id: 40, name: 'Battle Master'}, {id: 41, name: 'Cavalier'}, {id: 42, name: 'Champion'}, {id: 43, name: 'Echo Knight'}, {id: 44, name: 'Eldritch Knight'}, {id: 45, name: 'Psi Warrior'}, {id: 46, name: 'Rune Knight'}, {id: 47, name: 'Samurai'}],
-            6: [{id: 48, name: 'Way of the Ascendant Dragon'}, {id: 49, name: 'Way of the Astral Self'}, {id: 50, name: 'Way of the Drunken Master'}, {id: 51, name: 'Way of the Four Elements'}, {id: 52, name: 'Way of the Kensei'}, {id: 53, name: 'Way of the Long Death'}, {id: 54, name: 'Way of Mercy'}, {id: 55, name: 'Way of the Open Hand'}, {id: 56, name: 'Way of Shadow'}, {id: 57, name: 'Way of the Sun Soul'}],
-            7: [{id: 58, name: 'Oath of the Ancients'}, {id: 59, name: 'Oath of Conquest'}, {id: 60, name: 'Oath of the Crown'}, {id: 61, name: 'Oath of Devotion'}, {id: 62, name: 'Oath of Glory'}, {id: 63, name: 'Oath of Redemption'}, {id: 64, name: 'Oath of Vengeance'}, {id: 65, name: 'Oath of the Watchers'}, {id: 66, name: 'Oathbreaker'}],
-            8: [{id: 67, name: 'Beast Master Conclave'}, {id: 68, name: 'Drakewarden'}, {id: 69, name: 'Fey Wanderer'}, {id: 70, name: 'Gloom Stalker Conclave'}, {id: 71, name: 'Horizon Walker Conclave'}, {id: 72, name: 'Hunter Conclave'}, {id: 73, name: 'Monster Slayer Conclave'}, {id: 74, name: 'Swarmkeeper'}],
-            9: [{id: 75, name: 'Arcane Trickster'}, {id: 76, name: 'Assassin'}, {id: 77, name: 'Inquisitive'}, {id: 78, name: 'Mastermind'}, {id: 79, name: 'Phantom'}, {id: 80, name: 'Scout'}, {id: 81, name: 'Soulknife'}, {id: 82, name: 'Swashbuckler'}, {id: 83, name: 'Thief'}],
-            10: [{id: 84, name: 'Aberrant Mind'}, {id: 85, name: 'Clockwork Soul'}, {id: 86, name: 'Divine Soul'}, {id: 87, name: 'Draconic Bloodline'}, {id: 88, name: 'Lunar Sorcery'}, {id: 89, name: 'Shadow Magic'}, {id: 90, name: 'Storm Sorcery'}, {id: 91, name: 'Wild Magic'}],
-            11: [{id: 92, name: 'The Archfey'}, {id: 93, name: 'The Celestial'}, {id: 94, name: 'The Fathomless'}, {id: 95, name: 'The Fiend'}, {id: 96, name: 'The Genie'}, {id: 97, name: 'The Great Old One'}, {id: 98, name: 'The Hexblade'}, {id: 99, name: 'The Undead'}, {id: 100, name: 'The Undying'}],
-            12: [{id: 101, name: 'Abjuration'}, {id: 102, name: 'Bladesinging'}, {id: 103, name: 'Chronurgy'}, {id: 104, name: 'Conjuration'}, {id: 105, name: 'Divination'}, {id: 106, name: 'Enchantment'}, {id: 107, name: 'Evocation'}, {id: 108, name: 'Graviturgy'}, {id: 109, name: 'Illusion'}, {id: 110, name: 'Necromancy'}, {id: 111, name: 'Order of Scribes'}, {id: 112, name: 'Transmutation'}, {id: 113, name: 'War Magic'}],
-            13: [{id: 114, name: 'Alchemist'}, {id: 115, name: 'Armorer'}, {id: 116, name: 'Artillerist'}, {id: 117, name: 'Battle Smith'}]
+            1: [{id: 1, name: 'Path of the Berserker'}, {id: 2, name: 'Path of the Totem Warrior'}],
+            2: [{id: 3, name: 'College of Lore'}, {id: 4, name: 'College of Valor'}],
+            3: [{id: 5, name: 'Knowledge Domain'}, {id: 6, name: 'Life Domain'}, {id: 7, name: 'Light Domain'}],
+            4: [{id: 8, name: 'Circle of the Land'}, {id: 9, name: 'Circle of the Moon'}],
+            5: [{id: 10, name: 'Champion'}, {id: 11, name: 'Battle Master'}, {id: 12, name: 'Eldritch Knight'}],
+            6: [{id: 13, name: 'Way of the Open Hand'}, {id: 14, name: 'Way of Shadow'}],
+            7: [{id: 15, name: 'Oath of Devotion'}, {id: 16, name: 'Oath of the Ancients'}],
+            8: [{id: 17, name: 'Hunter'}, {id: 18, name: 'Beast Master'}],
+            9: [{id: 19, name: 'Thief'}, {id: 20, name: 'Assassin'}, {id: 21, name: 'Arcane Trickster'}],
+            10: [{id: 22, name: 'Draconic Bloodline'}, {id: 23, name: 'Wild Magic'}],
+            11: [{id: 24, name: 'The Archfey'}, {id: 25, name: 'The Fiend'}, {id: 26, name: 'The Great Old One'}],
+            12: [{id: 27, name: 'School of Abjuration'}, {id: 28, name: 'School of Evocation'}, {id: 29, name: 'School of Necromancy'}]
         };
 
         const classSelect = document.getElementById('classSelect');
         const subclassSelect = document.getElementById('subclassSelect');
 
         classSelect.addEventListener('change', function() {
-            const selectedClass = this.value;
+            const classId = this.value;
             
             // Clear current options
-            subclassSelect.innerHTML = '<option value="">--Select a Subclass--</option>';
+            subclassSelect.innerHTML = '<option value="">--Select Subclass--</option>';
             
-            if (selectedClass && subclassMap[selectedClass]) {
+            if (classId && subclassData[classId]) {
                 subclassSelect.disabled = false;
-                subclassMap[selectedClass].forEach(sub => {
+                
+                // Populate new options based on the chosen class ID
+                subclassData[classId].forEach(sub => {
                     const option = document.createElement('option');
-                    option.value = sub.toLowerCase().replace(/\s+/g, '-');
-                    option.textContent = sub;
+                    option.value = sub.id; // This ensures the correct SQL ID is posted
+                    option.textContent = sub.name;
                     subclassSelect.appendChild(option);
                 });
             } else {
                 subclassSelect.disabled = true;
-                subclassSelect.innerHTML = '<option value="">--Select a Class first--</option>';
+                subclassSelect.innerHTML = '<option value="">--Select a Class First--</option>';
             }
         });
     </script>
